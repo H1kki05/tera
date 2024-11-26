@@ -99,7 +99,7 @@ def getLink() -> Response:
 
 #--> Initialization
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
 
 # https://1024terabox.com/s/1eBHBOzcEI-VpUGA_xIcGQg
 # https://dm.terabox.com/indonesian/sharing/link?surl=KKG3LQ7jaT733og97CBcGg
