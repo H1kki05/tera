@@ -145,7 +145,7 @@ class TeraboxLink():
             old_url    : str = r.head(url, allow_redirects=True).url
             old_domain : str = re.search(r'://(.*?)\.',str(old_url)).group(1)
             medium_url : str = old_url.replace('by=themis', 'by=dapunta')
-            fast_url   : str = old_url.replace(old_domain,'d3').replace('by=themis', 'by=dapunta')
+            fast_url   : str = old_url.replace(old_domain,'d3').replace('by=themis', 'by=tgh7i')
             self.result['download_link'].update({'url_2':medium_url, 'url_3':fast_url})
         except: pass
         r.close()
