@@ -1,8 +1,8 @@
-## Implementasi API Javascript
+## Javascript API Implementation
 
 <br>
 
-### Inisialisasi Variabel Awal
+### Initial Variable Initialization
 
 ```js
 const api = 'https://teradl-api.dapuntaratya.com';
@@ -11,7 +11,7 @@ let mode = 1; // Mode Default = 1
 
 <br>
 
-### Melakukan requests ke endpoint `get_config` untuk mendapat status mode *(wajib)*
+### Make a request to the `get_config` endpoint to get the mode status *(required)*
 
 ```js
 async function getConfig() {
@@ -30,27 +30,27 @@ async function getConfig() {
     return(response.mode);
 }
 ```
-- Ini bertujuan sebagai auto switch mode dari sisi client, karena apabila cookies admin invalid, maka otomatis switch ke mode 1 *(tanpa cookie)*
+- This aims to be an auto switch mode from the client side, because if the admin cookies are invalid, it will automatically switch to mode 1 *(without cookies)*
 - Response
     - `{"mode":1}` jika cookie admin invalid
     - `{"mode":2}` jika cookie admin valid
-- Jika anda tidak melakukannya *(membuat auto switcher)*, resiko error tanggung sendiri
+- If you don't do it *(make an auto switcher)*, you will bear the risk of error yourself.
 
 <br>
 
 ### **Mode 1** : Dynamic Cookie
 
-#### Pastikan mode terlebih dahulu, bebas *di-inisialisasi* dimana, apakah saat program *di-load*, atau setiap fetch url
+#### Make sure the mode first, is free to *initialize* where, whether when the program is *loaded*, or every time you fetch the url
 
 ```js
-mode = await getConfig(); // Jika ingin auto switch
-mode = 1 // Jika ingin manual
+mode = await getConfig(); // If you want auto switch
+mode = 1 // If you want manual
 ```
 
-#### **Requests 1** : Mendapatkan Semua Daftar File
+#### **Requests 1** : Get All File List
 
 ```js
-const url = 'link terabox yg mau dicari';
+const url = 'terabox link you want to search for';
 
 const get_file_url = `${api}/generate_file`;
 const headers = {'Content-Type':'application/json'};
@@ -73,25 +73,25 @@ const response = await req.json();
         "browser_id": "mbuh pokoke browser id",
         "cookie": "iki cookie ne",
         "sign": "ha iki sign e",
-        "timestamp": "nek iki tondo wektu",
+        "timestamp": "This is the timestamp",
         "shareid": "nek jareku iki id file e",
-        "uk": "iki id akunmu otomatis",
-        "list": [ // Inilah daftar filenya
+        "uk": "this is your automatic account id",
+        "list": [ // Here is the list of files
             {...data_lain, "fs_id":"17428684593055"},
             {...data_lain, "fs_id":"13423453893056"},
             {...data_lain, "fs_id":"19346834756567"},
         ]
     }
     ```
-- Mode 1 hanya menghasilkan `fs_id` untuk tiap filenya, jadi untuk mendapatkan link downloadnya perlu mengirim payload lengkap pada requests 2
+- Mode 1 only generates `fs_id` for each file, so to get the download link you need to send the complete payload on request 2.
 
-#### **Requests 2** : Mendapatkan URL *(Download & Mirror)* Dari Tiap File
+#### **Requests 2** : Get URL *(Download & Mirror)* From Each File
 
 ```js
 const param = {
 
-    // Static, bisa dipake berulang asal filenya dalam response requests 1 yg sama
-    'mode'      : mode,
+    // Static, can be used repeatedly as long as the file is in the same response request 1
+    'mode' : fashion,
     'uk'        : "uk dari response requests 1",
     'shareid'   : "shareid dari response requests 1",
     'timestamp' : "timestamp dari response requests 1",
@@ -99,8 +99,8 @@ const param = {
     'js_token'  : "js_token dari response requests 1",
     'cookie'    : "cookie dari response requests 1",
 
-    // Dynamic, tiap file beda-beda
-    'fs_id'     : "inituh unique id dari tiap file"
+    // Dynamic, each file is different
+    'fs_id' : "this is the unique id of each file"
 };
 
 const get_link_url = `${api}/generate_link`;
@@ -132,17 +132,17 @@ const response = await req.json();
 
 ### **Mode 2** : Static Cookie
 
-#### Pastikan mode terlebih dahulu, bebas *di-inisialisasi* dimana, apakah saat program *di-load*, atau setiap fetch url
+#### Make sure the mode first, is free to *initialize* where, whether when the program is *loaded*, or every time you fetch the url
 
 ```js
-mode = await getConfig(); // Jika ingin auto switch
-mode = 2 // Jika ingin manual
+mode = await getConfig(); // If you want auto switch
+mode = 2 // If you want manual
 ```
 
-#### **Requests 1** : Mendapatkan Semua Daftar File
+#### **Requests 1** : Get All File List
 
 ```js
-const url = 'link terabox yg mau dicari';
+const url = 'terabox link you want to search for';
 
 const get_file_url = `${api}/generate_file`;
 const headers = {'Content-Type':'application/json'};
@@ -165,28 +165,28 @@ const response = await req.json();
         "browser_id": "mbuh pokoke browser id",
         "cookie": "iki cookie ne",
         "sign": "ha iki sign e",
-        "timestamp": "nek iki tondo wektu",
+        "timestamp": "This is the timestamp",
         "shareid": "nek jareku iki id file e",
-        "uk": "iki id akunmu otomatis",
-        "list": [ // Inilah daftar filenya
+        "uk": "this is your automatic account id",
+        "list": [ // Here is the list of files
             {...data_lain, "fs_id":"17428684593055", "link": "https://dm-d.terabox.com/..."},
             {...data_lain, "fs_id":"13423453893056", "link": "https://dm-d.terabox.com/..."},
             {...data_lain, "fs_id":"19346834756567", "link": "https://dm-d.terabox.com/..."},
         ]
     }
     ```
-- Mode 2 menghasilkan `link` untuk tiap filenya. ini merupakan base download link *(bisa langsung digunakan untuk download)*
-- Jika ingin mendapat mirror link, lanjut ke requests 2 tapi hanya dengan mengirim `link` saja
+- Mode 2 generates a `link` for each file. This is the base download link *(can be used directly for downloading)*
+- If you want to get a mirror link, continue to requests 2 but only by sending the `link`
 
-#### **Requests 2** : Mendapatkan URL *(Download & Mirror)* Dari Tiap File
+#### **Requests 2** : Get URL *(Download & Mirror)* From Each File
 
 ```js
 const param = {
 
     // Static
-    'mode' : mode,
+    'mode' : fashion,
 
-    // Dynamic, tiap file beda-beda
+    // Dynamic, each file is different
     'url' : "pake link dari requests 1 tadi"
 };
 
