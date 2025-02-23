@@ -12,7 +12,7 @@ from python.terabox1 import TeraboxFile as TF1, TeraboxLink as TL1
 from python.terabox2 import TeraboxFile as TF2, TeraboxLink as TL2, TeraboxSession as TS
 
 #--> Global Variable
-config = {'status':'failed', 'message':'cookie terabox nya invalid bos, coba lapor ke dapunta', 'mode':1, 'cookie':''}
+config = {'status':'failed', 'message':'cookie terabox nya invalid bos, coba lapor ke dapunta', 'mode':2, 'cookie':''}
 
 #--> Main
 @app.route(rule='/')
